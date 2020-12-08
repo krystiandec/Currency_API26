@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Przelicznik walut</string>
+    <string name="main_activity_textForeginCurrency">Waluta obca</string>
+    <string name="main_activity_textBaseCurrency">Waluta macieżysta</string>
+    <string name="main_activity_textInputValue">Wpisz kwotę w walucie obcej:</string>
+    <string name="main_activity_textInBaseCurrencyValue">Kwota w macierzystej walucie:</string>
+    <string name="main_activity_ButtonCalculate">Oblicz</string>
+    <string name="title_activity_splash">SplashActivity</string>
+</resources>

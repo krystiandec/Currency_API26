@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="#000"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/curr"
+            android:text="@string/main_activity_textForeginCurrency" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="55"
+            android:gravity="top" />
+
+        <TextView
+            style="@style/desc"
+            android:text="@string/main_activity_textInputValue" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/layout_back">
+
+        <EditText
+            android:id="@+id/edt_amount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/grey_very_dark"
+            android:digits="0123456789"
+            android:gravity="center_vertical"
+            android:inputType="numberDecimal"
+            android:textColor="#FFF"
+            android:textSize="30sp">
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_calc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="10"
+        android:text="@string/main_activity_ButtonCalculate"
+        android:textColor="@color/teal_200" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/curr"
+            android:text="@string/main_activity_textBaseCurrency" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="55"
+            android:gravity="top" />
+
+        <TextView
+            style="@style/desc"
+            android:text="@string/main_activity_textInBaseCurrencyValue" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/layout_back">
+
+        <TextView
+            android:id="@+id/txt_converted"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/grey_med_dark"
+            android:gravity="center_vertical"
+            android:textSize="30dp"
+            android:typeface="normal" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
