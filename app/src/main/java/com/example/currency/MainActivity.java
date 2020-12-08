@@ -1,4 +1,4 @@
-package com.example.currency;
+package com.example.currenciec_lab1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
