@@ -27,8 +27,10 @@ public class JSONParser {
     public JSONObject getJSONFromUrl(String url) {
         // próba pobrania odpowiedzi z serwera
         try {
+            System.out.println("@@@@@@@@@@@@@@@###################wschodzę do metody : getJSONFromUrl");
             URL internalURL = new URL(url);
             HttpURLConnection urlConnection = (HttpURLConnection) internalURL.openConnection();
+            urlConnection.setRequestMethod("GET");
             sInputStream = new BufferedInputStream(urlConnection.getInputStream());
         } catch (MalformedURLException e) {
             e.printStackTrace();

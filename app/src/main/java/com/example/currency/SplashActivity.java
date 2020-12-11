@@ -31,10 +31,14 @@ public class SplashActivity extends Activity {
     }
 
     private class FerchCodesTask extends AsyncTask<String, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            System.out.println("wschodzę do metody : doInBackground");
+            return new JSONParser().getJSONFromUrl(params[0]);
+        }
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
-
             try {
                 if (jsonObject == null) {
                     throw new JSONException("Brak danych");
@@ -51,17 +55,10 @@ public class SplashActivity extends Activity {
                 Toast.makeText(SplashActivity.this,
                         "Wyjątek w danych JSON: " + e.getMessage(),
                         Toast.LENGTH_LONG)
-                .show();
+                        .show();
                 e.printStackTrace();
                 finish();
             }
-
-
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... strings) {
-            return null;
         }
     }
 }
