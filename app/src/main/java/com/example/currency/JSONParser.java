@@ -1,4 +1,4 @@
-package com.example.currenciec_lab1;
+package com.example.currency;
 
 import android.util.Log;
 

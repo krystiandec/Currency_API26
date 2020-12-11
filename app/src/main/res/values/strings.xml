@@ -6,4 +6,8 @@
     <string name="main_activity_textInBaseCurrencyValue">Kwota w macierzystej walucie:</string>
     <string name="main_activity_ButtonCalculate">Oblicz</string>
     <string name="title_activity_splash">SplashActivity</string>
+
+<!--dsadsa
+-->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
