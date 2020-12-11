@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 public class SplashActivity extends Activity {
     public static final String URL_CODES = "http://openexchangerates.org/api/currencies.json";
+    public static final String KEY_ARRAYLIST = "key_arraylist";
     private ArrayList<String> mCurrencies;
 
     private TextView mTextView;
@@ -50,6 +51,9 @@ public class SplashActivity extends Activity {
                     key = (String) iterator.next();
                     mCurrencies.add(key + " | " + jsonObject.getString(key));
                 }
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                intent.putExtra(KEY_ARRAYLIST, mCurrencies);
+                startActivity(intent);
                 finish();
             } catch (JSONException e) {
                 Toast.makeText(SplashActivity.this,
