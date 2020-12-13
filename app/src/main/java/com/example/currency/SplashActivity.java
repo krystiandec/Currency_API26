@@ -28,7 +28,6 @@ public class SplashActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
         new FerchCodesTask().execute(URL_CODES);
-
     }
 
     private class FerchCodesTask extends AsyncTask<String, Void, JSONObject> {
