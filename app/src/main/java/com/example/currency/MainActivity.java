@@ -3,6 +3,11 @@ package com.example.currency;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText mAmountEditText;
     private Spinner mForSpinner, mHomSpinner;
     private String[] mCurrencies;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +54,48 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.mnu_codes: {
-                // TODO: 13.12.2020 zdefiniować działanie
-            }break;
+                launchBrowser(SplashActivity.URL_CODES);
+            }
+            break;
             case R.id.mnu_invert: {
-                // TODO: 13.12.2020 zdefiniować działanie
-            }break;
+                invertCurrencies();
+            }
+            break;
             case R.id.mnu_exit: {
                 finish();
-            }break;
+            }
+            break;
         }
 
         return true;
     }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
+    private void launchBrowser(String strUri) {
+        if (isOnline()) {
+            Uri uri = Uri.parse(strUri);
+            // wywołanie intencji w sposób pośredni
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+    }
+
+    private void invertCurrencies() {
+        int nFor = mForSpinner.getSelectedItemPosition();
+        int nHom = mHomSpinner.getSelectedItemPosition();
+
+        mForSpinner.setSelection(nHom);
+        mHomSpinner.setSelection(nFor);
+
+        mConvertedTextView.setText("");
+    }
+
 }
