@@ -8,11 +8,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class MainActivity extends AppCompatActivity {
     private Button mCalcButton;
     private TextView mConvertedTextView;
     private EditText mAmountEditText;
     private Spinner mForSpinner, mHomSpinner;
+    private String[] mCurrencies;
 
 
     @Override
@@ -25,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         mForSpinner = (Spinner)findViewById(R.id.spn_for);
         mHomSpinner= (Spinner)findViewById(R.id.spn_hom);
 
+        ArrayList<String> arrayList = ((ArrayList<String>)
+                getIntent().getSerializableExtra(SplashActivity.KEY_ARRAYLIST));
+        Collections.sort(arrayList);
+        mCurrencies = arrayList.toArray(new String[arrayList.size()]);
 
 
     }
