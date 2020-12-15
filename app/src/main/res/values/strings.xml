@@ -1,4 +1,5 @@
 <resources>
+    <!--mainActivity View-->
     <string name="app_name">Przelicznik walut</string>
     <string name="main_activity_textForeginCurrency">Waluta obca</string>
     <string name="main_activity_textBaseCurrency">Waluta macieżysta</string>
@@ -6,4 +7,9 @@
     <string name="main_activity_textInBaseCurrencyValue">Kwota w macierzystej walucie:</string>
     <string name="main_activity_ButtonCalculate">Oblicz</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="hello_world">Hello Square World!</string>
+<!--menu1_MainActivity-->
+    <string name="menu_1_findActiveCodes">znajdź aktywne kody</string>
+    <string name="menu1_recerseCodes">odwróć kody</string>
+    <string name="menu1_exit">wyjdź</string>
 </resources>
