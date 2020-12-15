@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Spinner mForSpinner, mHomSpinner;
     private String[] mCurrencies;
 
+    public static final String FOR = "FOR_CURRENCY";
+    public static final String HOM = "HOM_CURRENCY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mForSpinner.setOnItemSelectedListener(this);
         mHomSpinner.setOnItemSelectedListener(this);
+
+        if (savedInstanceState == null
+                && (PrefsMgr.getString(this, FOR) == null &&
+                PrefsMgr.getString(this, HOM) == null)) {
+
+            mForSpinner.setSelection(findPositionGivenCode("EUR", mCurrencies));
+            mHomSpinner.setSelection(findPositionGivenCode("PLN", mCurrencies));
+
+            PrefsMgr.setString(this, FOR, "EUR");
+            PrefsMgr.setString(this, HOM, "PLN");
+
+        } else {
+
+            mForSpinner.setSelection(findPositionGivenCode(PrefsMgr.getString(this,
+                    FOR), mCurrencies));
+            mHomSpinner.setSelection(findPositionGivenCode(PrefsMgr.getString(this,
+                    HOM), mCurrencies));
+        }
     }
 
     @Override
@@ -84,8 +105,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return true;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.spn_for: {
+                PrefsMgr.setString(this, FOR,
+                        extractCodeFromCurrency((String) mForSpinner.getSelectedItem()));
+            }break;
+            case R.id.spn_hom: {
+                PrefsMgr.setString(this, HOM,
+                        extractCodeFromCurrency((String) mHomSpinner.getSelectedItem()));
+            }break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     public boolean isOnline() {
-        ConnectivityManager cm =(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
             return true;
@@ -110,23 +152,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mHomSpinner.setSelection(nFor);
 
         mConvertedTextView.setText("");
+
+        PrefsMgr.setString(this, FOR,
+                extractCodeFromCurrency((String) mForSpinner.getSelectedItem()));
+        PrefsMgr.setString(this, HOM,
+                extractCodeFromCurrency((String) mHomSpinner.getSelectedItem()));
+
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()){
-            case R.id.spn_for{
-                //lalalala
-            }break;
-            case R.id.spn_hom{
-                //hahaha
-            }break;
-            default:break;
+    private int findPositionGivenCode(String code, String[] currencies) {
+
+        for (int i = 0; i < currencies.length; i++) {
+            if (extractCodeFromCurrency(currencies[i]).equalsIgnoreCase(code)) {
+                return i;
+            }
         }
+        // wartość domyślna
+        return 0;
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    private String extractCodeFromCurrency(String currency) {
+        return (currency).substring(0, 3);
     }
+
 }
