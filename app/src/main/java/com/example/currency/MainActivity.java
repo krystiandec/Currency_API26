@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Button mCalcButton;
     private TextView mConvertedTextView;
     private EditText mAmountEditText;
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_dropdown_item);
         mForSpinner.setAdapter(arrayAdapter);
         mHomSpinner.setAdapter(arrayAdapter);
+
+        mForSpinner.setOnItemSelectedListener(this);
+        mHomSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -107,4 +112,21 @@ public class MainActivity extends AppCompatActivity {
         mConvertedTextView.setText("");
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()){
+            case R.id.spn_for{
+                //lalalala
+            }break;
+            case R.id.spn_hom{
+                //hahaha
+            }break;
+            default:break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
