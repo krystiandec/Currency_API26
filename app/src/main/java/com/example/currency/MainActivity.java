@@ -1,14 +1,18 @@
 package com.example.currency;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +23,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +57,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setTitle("Waluty");
+
         mConvertedTextView = (TextView) findViewById(R.id.txt_converted);
         mAmountEditText = (EditText) findViewById(R.id.edt_amount);
         mCalcButton = (Button) findViewById(R.id.btn_calc);
@@ -89,13 +103,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mHomSpinner.setSelection(findPositionGivenCode(PrefsMgr.getString(this,
                     HOM), mCurrencies));
         }
+
+        mKey = getKey("open+key");
+
         mCalcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //obsługa zachowania
+                new CurrencyConverterTask().execute(URL_BASE + mKey);
             }
         });
-        mKey = getKey("open+key");
     }
 
     @Override
@@ -131,11 +147,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.spn_for: {
                 PrefsMgr.setString(this, FOR,
                         extractCodeFromCurrency((String) mForSpinner.getSelectedItem()));
-            }break;
+            }
+            break;
             case R.id.spn_hom: {
                 PrefsMgr.setString(this, HOM,
                         extractCodeFromCurrency((String) mHomSpinner.getSelectedItem()));
-            }break;
+            }
+            break;
             default:
                 break;
         }
@@ -195,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return (currency).substring(0, 3);
     }
 
-    private String getKey(String keyName){
+    private String getKey(String keyName) {
         AssetManager assetManager = this.getResources().getAssets();
         Properties properties = new Properties();
         try {
@@ -205,8 +223,72 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  properties.getProperty(keyName);
+        return properties.getProperty(keyName);
 
     }
 
+    private class CurrencyConverterTask extends AsyncTask<String, Void, JSONObject> {
+
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setTitle("Obliczanie wyniku...");
+            progressDialog.setMessage("Proszę czekać...");
+            progressDialog.setCancelable(true);
+            progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                    "Anuluj", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            CurrencyConverterTask.this.cancel(true);
+                            progressDialog.dismiss();
+                        }
+                    });
+            progressDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            return new JSONParser().getJSONFromUrl(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            double dCalculated = 0.0;
+            String strForCode =
+                    extractCodeFromCurrency(mCurrencies[mForSpinner.getSelectedItemPosition()]);
+            String strHomCode = extractCodeFromCurrency(mCurrencies[mHomSpinner.
+                    getSelectedItemPosition()]);
+            String strAmount = mAmountEditText.getText().toString();
+            try {
+                if (jsonObject == null) {
+                    throw new JSONException("brak danych");
+                }
+                JSONObject jsonRates = jsonObject.getJSONObject(RATES);
+                if (strHomCode.equalsIgnoreCase("USD")) {
+                    dCalculated = Double.parseDouble(strAmount) / jsonRates.getDouble(strForCode);
+                } else if (strForCode.equalsIgnoreCase("USD")) {
+                    dCalculated = Double.parseDouble(strAmount) * jsonRates.getDouble(strHomCode);
+                } else {
+                    dCalculated = Double.parseDouble(strAmount) * jsonRates.getDouble(strHomCode)
+                            / jsonRates.getDouble(strForCode);
+                }
+            } catch (JSONException e) {
+                Toast.makeText(
+                        MainActivity.this,
+                        "Wyjątek w danych JSON: " + e.getMessage(),
+                        Toast.LENGTH_LONG
+                ).show();
+                mConvertedTextView.setText("");
+                e.printStackTrace();
+            }
+            mConvertedTextView.setText(DECIMAL_FORMAT.format(dCalculated) + " " + strHomCode);
+            progressDialog.dismiss();
+
+            // w celach testowych
+            /*if (mCurrencyTaskCallback != null) {
+                mCurrencyTaskCallback.executionDone();*/
+        }
+    }
 }

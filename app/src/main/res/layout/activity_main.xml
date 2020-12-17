@@ -62,7 +62,8 @@
         android:layout_marginRight="10dp"
         android:layout_weight="10"
         android:text="@string/main_activity_ButtonCalculate"
-        android:textColor="@color/teal_200" />
+        android:textColor="@color/white"
+        android:background="@drawable/button_selector"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -100,6 +101,7 @@
             android:layout_marginRight="5dp"
             android:background="@color/grey_med_dark"
             android:gravity="center_vertical"
+            android:textColor="@color/white"
             android:textSize="30dp"
             android:typeface="normal" />
 
