@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.spinner_closed,
-                R.id.txt_lalala,
                 mCurrencies
         );
 
