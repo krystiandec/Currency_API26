@@ -48,8 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String mKey;
 
     public static final String RATES = "rates";
-    public static final String URL_BASE =
-            "https://openexchangerates.org/api/latest.json?app_id=";
+    public static final String URL_BASE ="https://openexchangerates.org/api/latest.json?app_id=";
     private static final DecimalFormat DECIMAL_FORMAT = new
             DecimalFormat("#,##0.00000");
 
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mForSpinner = (Spinner) findViewById(R.id.spn_for);
         mHomSpinner = (Spinner) findViewById(R.id.spn_hom);
 
-        ArrayList<String> arrayList = ((ArrayList<String>)getIntent().getSerializableExtra(SplashActivity.KEY_ARRAYLIST));
+        ArrayList<String> arrayList = ((ArrayList<String>) getIntent().getSerializableExtra(SplashActivity.KEY_ARRAYLIST));
         Collections.sort(arrayList);
         mCurrencies = arrayList.toArray(new String[arrayList.size()]);
 
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     HOM), mCurrencies));
         }
 
-        mKey = getKey("open+key");
+        mKey = getKey("open_key");
 
         mCalcButton.setOnClickListener(new View.OnClickListener() {
             @Override
