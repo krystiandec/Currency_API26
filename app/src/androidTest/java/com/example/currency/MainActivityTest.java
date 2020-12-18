@@ -3,8 +3,8 @@ package com.example.currency;
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public class MainActivityTest extends TestSetup {
 
@@ -13,14 +13,14 @@ public class MainActivityTest extends TestSetup {
     }
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
-        fTest.
+
     }
 
     @Override
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
     }
