@@ -69,17 +69,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mForSpinner = (Spinner) findViewById(R.id.spn_for);
         mHomSpinner = (Spinner) findViewById(R.id.spn_hom);
 
-        ArrayList<String> arrayList = ((ArrayList<String>)
-                getIntent().getSerializableExtra(SplashActivity.KEY_ARRAYLIST));
+        ArrayList<String> arrayList = ((ArrayList<String>)getIntent().getSerializableExtra(SplashActivity.KEY_ARRAYLIST));
         Collections.sort(arrayList);
         mCurrencies = arrayList.toArray(new String[arrayList.size()]);
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.spinner_closed,
+                R.id.txt_lalala,
                 mCurrencies
         );
-        arrayAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item);
+
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         mForSpinner.setAdapter(arrayAdapter);
         mHomSpinner.setAdapter(arrayAdapter);
 
